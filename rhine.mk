@@ -19,10 +19,7 @@ $(call inherit-product, device/sony/qcom-common/qcom-common-330.mk)
 
 COMMON_PATH := device/sony/rhine-common
 
-DEVICE_PACKAGE_OVERLAYS += $(COMMON_PATH)/overlay
-
 ifneq ($(BOARD_HAVE_RADIO),false)
-    DEVICE_PACKAGE_OVERLAYS += $(COMMON_PATH)/overlay-radio
     $(call inherit-product, $(COMMON_PATH)/radio.mk)
 endif
 
@@ -71,10 +68,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
 # NFC Support
 PRODUCT_PACKAGES += \
     libnfc \
-    libnfc_jni \
-    Nfc \
-    Tag \
-    com.android.nfc_extras
+    libnfc_jni
 
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/com.android.nfc_extras.xml:system/etc/permissions/com.android.nfc_extras.xml
@@ -89,6 +83,10 @@ endif
 PRODUCT_COPY_FILES += \
     $(NFCEE_ACCESS_PATH):system/etc/nfcee_access.xml
 
+#Ubuntu Wifi autostart
+PRODUCT_COPY_FILES += \
+	$(COMMON_PATH)/rootdir/system/etc/init.qcom.wlan.sh:system/etc/init.qcom.wlan.sh
+	
 # Recovery
 PRODUCT_PACKAGES += \
     extract_elf_ramdisk
@@ -125,9 +123,6 @@ PRODUCT_COPY_FILES += \
     $(COMMON_PATH)/rootdir/system/etc/init.qcom.fm.sh:system/etc/init.qcom.fm.sh \
     frameworks/native/data/etc/com.stericsson.hardware.fm.receiver.xml:system/etc/permissions/com.stericsson.hardware.fm.receiver.xml
 
-PRODUCT_PACKAGES += \
-    FmRadio
-
 # Key layouts
 PRODUCT_COPY_FILES += \
     $(COMMON_PATH)/rootdir/system/usr/keylayout/Button_Jack.kl:system/usr/keylayout/Button_Jack.kl \
@@ -138,12 +133,6 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
     librs_jni \
     com.android.future.usb.accessory
-
-# Live Wallpapers
-PRODUCT_PACKAGES += \
-    LiveWallpapers \
-    LiveWallpapersPicker \
-    VisualizationWallpapers \
 
 # Filesystem management tools
 PRODUCT_PACKAGES += \

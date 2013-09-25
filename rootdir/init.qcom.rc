@@ -247,6 +247,8 @@ on post-fs-data
     # Update WIFI MAC address
     mkdir /data/misc/wifi/prima 0775 wifi wifi
     exec /system/bin/mac-update
+	
+	start wlan
 
     write /dev/wcnss_wlan 1
     write /sys/devices/fb000000.qcom,wcnss-wlan/serial_number ${ro.serialno}
@@ -612,6 +614,12 @@ service fm_dl /system/bin/sh /system/etc/init.qcom.fm.sh
     group system qcom_oncrpc
     disabled
     oneshot
+	
+service wlan /system/bin/sh /system/etc/init.qcom.wlan.sh
+    class main
+    user root
+    group system system
+    oneshot 
 
 service illumination /system/bin/illumination_service
     socket illumination stream 0660 root system
